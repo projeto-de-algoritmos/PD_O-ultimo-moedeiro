@@ -18,10 +18,18 @@ def logicaBot (memoization, qtdMoedas, retira1, retira2):
 
 # qtdMoedas >= 3
 qtdMoedas = int(input())
-# qtdMoedas > retira1 > 1
+while qtdMoedas < 3:
+    qtdMoedas = int(input())
+
+# qtdMoedas - 1 > retira1 > 1
 retira1 = int(input())
+while retira1 >= qtdMoedas - 1 or retira1 <= 1
+    retira1 = int(input())
+
 # qtdMoedas - retira1 > retira2 > 1
 retira2 = int(input())
+while retira2 >= qtdMoedas - retira1 or retira 2 <= 1
+    retira2 = int(input())
 
 memoization = []
 jogador = 1
@@ -34,13 +42,11 @@ while qtdMoedas >= 1:
         print("Insira a quantidade de moedas: ")
         entrada = int(input())
         while entrada not in [1, retira1, retira2] or qtdMoedas - entrada < 0:
-            print("Erro")
+            print(f"Error, valor deve ser 1, {retira1} ou {retira2}")
             entrada = int(input())
         qtdMoedas -= entrada
     else:
-        if rodada == 1:
-            memoization = moedeiro(qtdMoedas, retira1, retira2)
-            print(memoization)
+        if rodada == 1: memoization = moedeiro(qtdMoedas, retira1, retira2)
         rodada += 1
         bot = logicaBot(memoization, qtdMoedas, retira1, retira2)
         qtdMoedas -= bot
