@@ -52,27 +52,3 @@ class Retangular_button:
     def __check_button_hitbox(self, mouse_pos):
         if mouse_pos[0] >= self.pos.x and mouse_pos[0] <= self.pos.x + 15 and mouse_pos[1] >= self.pos.y and mouse_pos[1] <= self.pos.y + 15: return True
         return False
-
-        
-class App:
-    def __init__(self):
-        pyxel.init(200, 150, caption="O Último Moedeiro")
-        pyxel.mouse(True)
-
-        self.pixels_tela = []
-        self.cima = Retangular_button(20, 20, '+')
-        self.baixo = Retangular_button(20, 60, '-')
-
-        pyxel.run(self.update, self.draw)
-
-    def update(self):
-        if pyxel.btnp(pyxel.KEY_Q):
-            pyxel.quit()
-
-    def draw(self):
-        pyxel.cls(0)
-
-        self.cima.draw()
-        self.baixo.draw()
-
-App()
