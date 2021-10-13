@@ -2,6 +2,7 @@ import pyxel
 import graphics.botao as bt
 import graphics.text as tx
 import utils as ut
+import moedeiro as md
 
 class App:
     def __init__(self):
@@ -13,6 +14,10 @@ class App:
         self.qtdMoedas = 3
         self.retira1 = 2
         self.retira2 = 3
+
+        self.rodada = 1
+        self.jogador = 1
+        self.memoization = []
 
         self.botoes_qtdMoedas= [bt.Retangular_button(ut.WIDTH/2 - 40, ut.HEIGHT - 37, '+'), bt.Retangular_button(ut.WIDTH/2 - 40, ut.HEIGHT - 17, '-')]
         self.botoes_retira1 = [bt.Retangular_button(ut.WIDTH/2 - 30, ut.HEIGHT - 37, '+'), bt.Retangular_button(ut.WIDTH/2 - 30, ut.HEIGHT - 17, '-')]
@@ -34,15 +39,43 @@ class App:
             self.qtdMoedas = 3
             self.retira1 = 2
             self.retira2 = 3
+            self.jogador = 1
+            self.rodada = 1
 
+        if self.botao_start.update() == 1:
+            self.game_state = 1
+            self.botoes_qtd[1].update_value(str(self.retira1))
+            self.botoes_qtd[2].update_value(str(self.retira2))
+            self.memoization = md.moedeiro(self.qtdMoedas, self.retira1, self.retira2)
+            print(self.memoization)
+
+        if self.game_state == 0: self.update_state_0()
+        elif self.game_state == 1: self.update_state_1()
+
+    def update_state_0(self):
         if self.botoes_qtdMoedas[0].update() == 1 and self.qtdMoedas + 1 < 100: self.qtdMoedas += 1
-        if self.botoes_qtdMoedas[1].update() == 1 and self.qtdMoedas - 1 > self.retira2: self.qtdMoedas -= 1
+        if self.botoes_qtdMoedas[1].update() == 1 and self.qtdMoedas - 1 >= self.retira2: self.qtdMoedas -= 1
         if self.botoes_retira1[0].update() == 1 and self.retira1 + 1 < self.retira2: self.retira1 += 1
         if self.botoes_retira1[1].update() == 1 and self.retira1 - 1 > 1: self.retira1 -= 1
         if self.botoes_retira2[0].update() == 1 and self.retira2 + 1 <= self.qtdMoedas: self.retira2 += 1
         if self.botoes_retira2[1].update() == 1 and self.retira2 - 1 > self.retira1: self.retira2 -= 1
 
-        if self.botao_start.update() == 1: self.game_state = 1
+    def update_state_1(self):
+        if self.jogador == 1:
+            if self.botoes_qtd[0].update() == 1 and self.qtdMoedas - 1 >= 0:
+                self.qtdMoedas -= 1
+                self.jogador = 0
+            elif self.botoes_qtd[1].update() == 1 and self.qtdMoedas - self.retira1 >= 0:
+                self.qtdMoedas -= self.retira1
+                self.jogador = 0
+            elif self.botoes_qtd[2].update() == 1 and self.qtdMoedas - self.retira2 >= 0:
+                self.qtdMoedas -= self.retira2
+                self.jogador = 0
+        elif self.qtdMoedas > 0 and self.jogador == 0:
+            self.qtdMoedas -= md.logicaBot(self.memoization, self.qtdMoedas, self.retira1, self.retira2)
+            self.jogador = 1
+
+        if self.qtdMoedas == 0: self.game_state = 2
 
     def draw(self):
         pyxel.cls(0)

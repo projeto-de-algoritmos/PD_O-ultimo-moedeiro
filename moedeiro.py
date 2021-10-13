@@ -16,40 +16,11 @@ def logicaBot (memoization, qtdMoedas, retira1, retira2):
     elif not memoization[qtdMoedas - retira2] and qtdMoedas - retira2 >= 0: return retira2
     elif qtdMoedas - 1 >= 0: return 1
 
-# qtdMoedas >= 3
-qtdMoedas = int(input())
-while qtdMoedas < 3:
-    qtdMoedas = int(input())
+#      else:
+#          if rodada == 1: memoization = moedeiro(qtdMoedas, retira1, retira2)
+#          rodada += 1
+#          bot = logicaBot(memoization, qtdMoedas, retira1, retira2)
+#          qtdMoedas -= bot
+#      jogador *= -1
 
-# qtdMoedas - 1 > retira1 > 1
-retira1 = int(input())
-while retira1 >= qtdMoedas - 1 or retira1 <= 1
-    retira1 = int(input())
-
-# qtdMoedas - retira1 > retira2 > 1
-retira2 = int(input())
-while retira2 >= qtdMoedas - retira1 or retira 2 <= 1
-    retira2 = int(input())
-
-memoization = []
-jogador = 1
-rodada = 1
-print(moedeiro(qtdMoedas, retira1, retira2))
-
-while qtdMoedas >= 1:
-    if jogador == 1:
-        print(f"Quantidade de moedas restantes: {qtdMoedas}")
-        print("Insira a quantidade de moedas: ")
-        entrada = int(input())
-        while entrada not in [1, retira1, retira2] or qtdMoedas - entrada < 0:
-            print(f"Error, valor deve ser 1, {retira1} ou {retira2}")
-            entrada = int(input())
-        qtdMoedas -= entrada
-    else:
-        if rodada == 1: memoization = moedeiro(qtdMoedas, retira1, retira2)
-        rodada += 1
-        bot = logicaBot(memoization, qtdMoedas, retira1, retira2)
-        qtdMoedas -= bot
-    jogador *= -1
-
-print(f"VITORIA JOGADOR {'A' if jogador == -1 else 'B'} EM {rodada} RODADAS")
+#  print(f"VITORIA JOGADOR {'A' if jogador == -1 else 'B'} EM {rodada} RODADAS")

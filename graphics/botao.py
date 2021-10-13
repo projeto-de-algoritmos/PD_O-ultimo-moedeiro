@@ -17,6 +17,8 @@ class Normal_button:
         mouse_pos = [pyxel.mouse_x, pyxel.mouse_y]
         if pyxel.btnp(pyxel.MOUSE_LEFT_BUTTON) and self.__check_button_hitbox(mouse_pos):
             return 1
+    def update_value(self, text):
+        self.text = text
 
     def draw(self):
         pyxel.rect(self.pos.x, self.pos.y + 2, self.size, 15, 3)
