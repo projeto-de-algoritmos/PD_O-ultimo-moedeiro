@@ -7,6 +7,7 @@ import moedeiro as md
 class App:
     def __init__(self):
         pyxel.init(ut.WIDTH, ut.HEIGHT, caption="O Último Moedeiro")
+        
         pyxel.mouse(True)
 
         self.game_state = 0
@@ -63,6 +64,8 @@ class App:
             self.memoization = md.moedeiro(self.qtdMoedas, self.retira1, self.retira2)
 
     def update_state_1(self):
+        
+
         if self.jogador == 1:
             if self.botoes_qtd[0].update() == 1 and self.qtdMoedas - 1 >= 0:
                 self.qtdMoedas -= 1
@@ -74,9 +77,11 @@ class App:
                 self.qtdMoedas -= self.retira2
                 self.jogador = 0
         elif self.qtdMoedas > 0 and self.jogador == 0:
+            print(self.memoization)
             self.qtdMoedas -= md.logicaBot(self.memoization, self.qtdMoedas, self.retira1, self.retira2)
             self.jogador = 1
             self.rodada += 1
+            
 
         if self.qtdMoedas == 0:
             self.game_state = 2
@@ -102,6 +107,28 @@ class App:
 
     def draw_state_1(self):
         s = 'TOTAL DE MOEDAS RESTANTES: {}'.format(self.qtdMoedas)
+        pyxel.load("graphics/mesaMoedeiroSemMoedas.pyxres")
+        pyxel.blt((ut.WIDTH/2) - 30, (ut.HEIGHT/2) - 30, 0, 16, 42, 48, 35)
+
+        if self.qtdMoedas > 10 and self.qtdMoedas < 20:
+            pyxel.load("graphics/mesaMoedeiroNormalMoedas.pyxres")
+            pyxel.blt((ut.WIDTH/2) - 30, (ut.HEIGHT/2) - 30, 0, 16, 42, 48, 35)
+        elif self.qtdMoedas >= 20:
+            pyxel.load("graphics/mesaMoedeiroMuitasMoedas.pyxres")
+            pyxel.blt((ut.WIDTH/2) - 30, (ut.HEIGHT/2) - 30, 0, 16, 42, 48, 35)
+        elif self.qtdMoedas <= 10 and self.qtdMoedas > 3:
+            pyxel.load("graphics/mesaMoedeiroPoucasMoedas.pyxres")
+            pyxel.blt((ut.WIDTH/2) - 30, (ut.HEIGHT/2) - 30, 0, 16, 42, 48, 35)
+        elif self.qtdMoedas == 3:
+            pyxel.load("graphics/mesaMoedeiro3Moedas.pyxres")
+            pyxel.blt((ut.WIDTH/2) - 30, (ut.HEIGHT/2) - 30, 0, 16, 42, 48, 35)
+        elif self.qtdMoedas == 2:
+            pyxel.load("graphics/mesaMoedeiro2Moedas.pyxres")
+            pyxel.blt((ut.WIDTH/2) - 30, (ut.HEIGHT/2) - 30, 0, 16, 42, 48, 35)
+        elif self.qtdMoedas == 1:
+            pyxel.load("graphics/mesaMoedeiroUmaMoeda.pyxres")
+            pyxel.blt((ut.WIDTH/2) - 30, (ut.HEIGHT/2) - 30, 0, 16, 42, 48, 35)
+
         tx.Centered_text(s, 6, 7).draw()
         for botoes in self.botoes_qtd: botoes.draw()
 
