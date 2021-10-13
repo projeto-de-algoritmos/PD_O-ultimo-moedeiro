@@ -50,5 +50,5 @@ class Retangular_button:
         pyxel.text(self.pos.x + 2, self.pos.y + 1, self.text, 7)
 
     def __check_button_hitbox(self, mouse_pos):
-        if mouse_pos[0] >= self.pos.x and mouse_pos[0] <= self.pos.x + 15 and mouse_pos[1] >= self.pos.y and mouse_pos[1] <= self.pos.y + 15: return True
+        if mouse_pos[0] >= self.pos.x and mouse_pos[0] <= self.pos.x + 6 and mouse_pos[1] >= self.pos.y and mouse_pos[1] <= self.pos.y + 7: return True
         return False
