@@ -29,8 +29,8 @@ class Normal_button:
 
     def __check_button_hitbox(self, mouse_pos):
         if math.dist([self.pos.x, self.pos.y + 7], mouse_pos) < 7: return True
-        elif mouse_pos[0] >= self.pos.x and mouse_pos[0] <= self.pos.x + 15 and mouse_pos[1] >= self.pos.y and mouse_pos[1] <= self.pos.y + 15: return True
-        elif math.dist([self.pos.x + 15, self.pos.y + 7], mouse_pos) < 7: return True
+        elif mouse_pos[0] >= self.pos.x and mouse_pos[0] <= self.pos.x + self.size and mouse_pos[1] >= self.pos.y and mouse_pos[1] <= self.pos.y + 15: return True
+        elif math.dist([self.pos.x + self.size, self.pos.y + 7], mouse_pos) < 7: return True
         return False
 
 class Retangular_button:

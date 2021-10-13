@@ -8,6 +8,8 @@ class App:
         pyxel.init(ut.WIDTH, ut.HEIGHT, caption="O Último Moedeiro")
         pyxel.mouse(True)
 
+        self.game_state = 0
+
         self.qtdMoedas = 3
         self.retira1 = 2
         self.retira2 = 3
@@ -23,6 +25,12 @@ class App:
         if pyxel.btnp(pyxel.KEY_Q):
             pyxel.quit()
 
+        if pyxel.btnp(pyxel.KEY_R):
+            self.game_state = 0
+            self.qtdMoedas = 3
+            self.retira1 = 2
+            self.retira2 = 3
+
         if self.botoes_qtdMoedas[0].update() == 1 and self.qtdMoedas + 1 < 100: self.qtdMoedas += 1
         if self.botoes_qtdMoedas[1].update() == 1 and self.qtdMoedas - 1 > self.retira2: self.qtdMoedas -= 1
         if self.botoes_retira1[0].update() == 1 and self.retira1 + 1 < self.retira2: self.retira1 += 1
@@ -30,10 +38,17 @@ class App:
         if self.botoes_retira2[0].update() == 1 and self.retira2 + 1 <= self.qtdMoedas: self.retira2 += 1
         if self.botoes_retira2[1].update() == 1 and self.retira2 - 1 > self.retira1: self.retira2 -= 1
 
+        if self.botao_start.update() == 1: self.game_state = 1
+
     def draw(self):
         pyxel.cls(0)
-        s = 'Bem vindo ao ultimo moedeiro\no objetivo desse jogo\ne pegar a ultima moeda\nporem voce so pode pegar\numa quantidade determinada.\nPara iniciar o jogo\nescolha as 2 quantidades possíveis\nincluindo o valor 1.'.splitlines()
-        for i in range(len(s)): tx.Centered_text(s[i], 60 + 6 * i, 7).draw()
+
+        if self.game_state == 0: self.draw_state_0()
+        elif self.game_state == 1: self.draw_state_1()
+
+    def draw_state_0(self):
+        s = 'Bem vindo ao ultimo moedeiro\no objetivo desse jogo\ne pegar a ultima moeda\nporem voce so pode pegar\numa quantidade determinada.\nPara iniciar o jogo\nescolha a quantidade de moedas\ne 2 quantidades possíveis\npara se retirar as moedas.'.splitlines()
+        for i in range(len(s)): tx.Centered_text(s[i], 50 + 6 * i, 7).draw()
         for botoes in self.botoes_qtdMoedas: botoes.draw()
         for botoes in self.botoes_retira1: botoes.draw()
         for botoes in self.botoes_retira2: botoes.draw()
@@ -41,5 +56,8 @@ class App:
         tx.Centered_text(str(self.retira1), ut.HEIGHT - 25, 7, ut.WIDTH/2 - (28 if len(str(self.retira1)) == 1 else 30)).draw()
         tx.Centered_text(str(self.retira2), ut.HEIGHT - 25, 7, ut.WIDTH/2 - (18 if len(str(self.retira2)) == 1 else 20)).draw()
         self.botao_start.draw()
+
+    def draw_state_1(self):
+        ...
 
 App()
