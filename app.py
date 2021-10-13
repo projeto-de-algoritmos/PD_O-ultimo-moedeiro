@@ -17,7 +17,11 @@ class App:
         self.botoes_qtdMoedas= [bt.Retangular_button(ut.WIDTH/2 - 40, ut.HEIGHT - 37, '+'), bt.Retangular_button(ut.WIDTH/2 - 40, ut.HEIGHT - 17, '-')]
         self.botoes_retira1 = [bt.Retangular_button(ut.WIDTH/2 - 30, ut.HEIGHT - 37, '+'), bt.Retangular_button(ut.WIDTH/2 - 30, ut.HEIGHT - 17, '-')]
         self.botoes_retira2 = [bt.Retangular_button(ut.WIDTH/2 - 20, ut.HEIGHT - 37, '+'), bt.Retangular_button(ut.WIDTH/2 - 20, ut.HEIGHT - 17, '-')]
-        self.botao_start = bt.Normal_button(ut.WIDTH/2, ut.HEIGHT - 30 , 'Comecar Jogo')
+        self.botao_start = bt.Normal_button(ut.WIDTH/2, ut.HEIGHT - 30, 'Comecar Jogo')
+
+        self.botoes_qtd = [bt.Normal_button(ut.WIDTH/2 - 30, ut.HEIGHT - 30, '1'),
+                bt.Normal_button(ut.WIDTH/2, ut.HEIGHT - 30, str(self.retira1)),
+                bt.Normal_button(ut.WIDTH/2 + 30, ut.HEIGHT - 30, str(self.retira2))]
 
         pyxel.run(self.update, self.draw)
 
@@ -58,6 +62,8 @@ class App:
         self.botao_start.draw()
 
     def draw_state_1(self):
-        ...
+        s = 'RESTAM {} MOEDAS'.format(self.qtdMoedas)
+        tx.Centered_text(s, 6, 7).draw()
+        for botoes in self.botoes_qtd: botoes.draw()
 
 App()
