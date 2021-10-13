@@ -15,7 +15,7 @@ class App:
         self.retira1 = 2
         self.retira2 = 3
 
-        self.rodada = 1
+        self.rodada = 0
         self.jogador = 1
         self.memoization = []
 
@@ -30,24 +30,20 @@ class App:
 
         pyxel.run(self.update, self.draw)
 
+    def restart_game(self):
+        self.game_state = 0
+        self.qtdMoedas = 3
+        self.retira1 = 2
+        self.retira2 = 3
+        self.jogador = 1
+        self.rodada = 0
+
     def update(self):
         if pyxel.btnp(pyxel.KEY_Q):
             pyxel.quit()
 
         if pyxel.btnp(pyxel.KEY_R):
-            self.game_state = 0
-            self.qtdMoedas = 3
-            self.retira1 = 2
-            self.retira2 = 3
-            self.jogador = 1
-            self.rodada = 1
-
-        if self.botao_start.update() == 1:
-            self.game_state = 1
-            self.botoes_qtd[1].update_value(str(self.retira1))
-            self.botoes_qtd[2].update_value(str(self.retira2))
-            self.memoization = md.moedeiro(self.qtdMoedas, self.retira1, self.retira2)
-            print(self.memoization)
+            self.restart_game()
 
         if self.game_state == 0: self.update_state_0()
         elif self.game_state == 1: self.update_state_1()
@@ -59,6 +55,12 @@ class App:
         if self.botoes_retira1[1].update() == 1 and self.retira1 - 1 > 1: self.retira1 -= 1
         if self.botoes_retira2[0].update() == 1 and self.retira2 + 1 <= self.qtdMoedas: self.retira2 += 1
         if self.botoes_retira2[1].update() == 1 and self.retira2 - 1 > self.retira1: self.retira2 -= 1
+
+        if self.botao_start.update() == 1:
+            self.game_state = 1
+            self.botoes_qtd[1].update_value(str(self.retira1))
+            self.botoes_qtd[2].update_value(str(self.retira2))
+            self.memoization = md.moedeiro(self.qtdMoedas, self.retira1, self.retira2)
 
     def update_state_1(self):
         if self.jogador == 1:
@@ -74,14 +76,18 @@ class App:
         elif self.qtdMoedas > 0 and self.jogador == 0:
             self.qtdMoedas -= md.logicaBot(self.memoization, self.qtdMoedas, self.retira1, self.retira2)
             self.jogador = 1
+            self.rodada += 1
 
-        if self.qtdMoedas == 0: self.game_state = 2
+        if self.qtdMoedas == 0:
+            self.game_state = 2
+            if self.rodada == 0: self.rodada += 1
 
     def draw(self):
         pyxel.cls(0)
 
         if self.game_state == 0: self.draw_state_0()
         elif self.game_state == 1: self.draw_state_1()
+        elif self.game_state == 2: self.draw_state_2()
 
     def draw_state_0(self):
         s = 'Bem vindo ao ultimo moedeiro\no objetivo desse jogo\ne pegar a ultima moeda\nporem voce so pode pegar\numa quantidade determinada.\nPara iniciar o jogo\nescolha a quantidade de moedas\ne 2 quantidades possíveis\npara se retirar as moedas.'.splitlines()
@@ -95,8 +101,14 @@ class App:
         self.botao_start.draw()
 
     def draw_state_1(self):
-        s = 'RESTAM {} MOEDAS'.format(self.qtdMoedas)
+        s = 'TOTAL DE MOEDAS RESTANTES: {}'.format(self.qtdMoedas)
         tx.Centered_text(s, 6, 7).draw()
         for botoes in self.botoes_qtd: botoes.draw()
+
+    def draw_state_2(self):
+        s = 'VOCE GANHOU' if self.jogador == 0 else 'VOCE PERDEU'
+        s += '\nEM {} RODADA{}\nAPERTE "R" PARA REINICIAR.'.format(self.rodada, "S" if self.rodada > 1 else "")
+        s = s.splitlines()
+        for i in range(len(s)): tx.Centered_text(s[i], 70 + 6 * i, 10).draw()
 
 App()
