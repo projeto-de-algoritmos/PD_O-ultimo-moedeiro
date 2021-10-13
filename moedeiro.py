@@ -15,12 +15,3 @@ def logicaBot (memoization, qtdMoedas, retira1, retira2):
     if not memoization[qtdMoedas - retira1] and qtdMoedas - retira1 >= 0: return retira1
     elif not memoization[qtdMoedas - retira2] and qtdMoedas - retira2 >= 0: return retira2
     elif qtdMoedas - 1 >= 0: return 1
-
-#      else:
-#          if rodada == 1: memoization = moedeiro(qtdMoedas, retira1, retira2)
-#          rodada += 1
-#          bot = logicaBot(memoization, qtdMoedas, retira1, retira2)
-#          qtdMoedas -= bot
-#      jogador *= -1
-
-#  print(f"VITORIA JOGADOR {'A' if jogador == -1 else 'B'} EM {rodada} RODADAS")
