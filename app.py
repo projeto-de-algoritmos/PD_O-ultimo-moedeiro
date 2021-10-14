@@ -64,8 +64,6 @@ class App:
             self.memoization = md.moedeiro(self.qtdMoedas, self.retira1, self.retira2)
 
     def update_state_1(self):
-        
-
         if self.jogador == 1:
             if self.botoes_qtd[0].update() == 1 and self.qtdMoedas - 1 >= 0:
                 self.qtdMoedas -= 1
@@ -94,6 +92,9 @@ class App:
         elif self.game_state == 2: self.draw_state_2()
 
     def draw_state_0(self):
+        pyxel.load("graphics/logo.pyxres")
+        pyxel.blt(ut.WIDTH/2 - 52, 10, 0, 0, 32, 97, 64)
+
         s = 'Bem vindo ao ultimo moedeiro\no objetivo desse jogo\ne pegar a ultima moeda\nporem voce so pode pegar\numa quantidade determinada.\nPara iniciar o jogo\nescolha a quantidade de moedas\ne 2 quantidades possíveis\npara se retirar as moedas.'.splitlines()
         for i in range(len(s)): tx.Centered_text(s[i], 50 + 6 * i, 7).draw()
         for botoes in self.botoes_qtdMoedas: botoes.draw()
